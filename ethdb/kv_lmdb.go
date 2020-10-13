@@ -422,6 +422,8 @@ func (tx *lmdbTx) CreateBucket(name string) error {
 	switch flags {
 	case dbutils.DupSort:
 		nativeFlags |= lmdb.DupSort
+	case dbutils.DupFixed:
+		nativeFlags |= lmdb.DupFixed
 	}
 	dbi, err := tx.tx.OpenDBI(name, nativeFlags)
 	if err != nil {
@@ -679,11 +681,11 @@ func (tx *lmdbTx) Cursor(bucket string) Cursor {
 		return tx.stdCursor(bucket)
 	}
 
-	if b.Flags&lmdb.DupFixed != 0 {
+	if b.Flags&dbutils.DupFixed != 0 {
 		return tx.CursorDupFixed(bucket)
 	}
 
-	if b.Flags&lmdb.DupSort != 0 {
+	if b.Flags&dbutils.DupSort != 0 {
 		return tx.CursorDupSort(bucket)
 	}
 
