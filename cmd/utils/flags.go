@@ -420,7 +420,7 @@ var (
 	}
 	DatabaseFlag = cli.StringFlag{
 		Name:  "database",
-		Usage: "Which database software to use? Currently supported values: lmdb",
+		Usage: "Which database software to use? Currently supported values: lmdb, mdbx",
 		Value: "lmdb",
 	}
 	BatchSizeFlag = cli.StringFlag{
@@ -1285,6 +1285,7 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 	}
 
 	databaseFlag := ctx.GlobalString(DatabaseFlag.Name)
+	cfg.MDBX = strings.EqualFold(databaseFlag, "mdbx") //case insensitive
 	cfg.LMDB = strings.EqualFold(databaseFlag, "lmdb") //case insensitive
 	if cfg.LMDB && ctx.GlobalString(LMDBMapSizeFlag.Name) != "" {
 		err := cfg.LMDBMapSize.UnmarshalText([]byte(ctx.GlobalString(LMDBMapSizeFlag.Name)))
