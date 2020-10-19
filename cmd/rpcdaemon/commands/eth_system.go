@@ -7,6 +7,7 @@ import (
 	"github.com/ledgerwatch/turbo-geth/common/hexutil"
 	"github.com/ledgerwatch/turbo-geth/eth"
 	"github.com/ledgerwatch/turbo-geth/eth/stagedsync/stages"
+	"github.com/ledgerwatch/turbo-geth/ethdb"
 )
 
 // BlockNumber returns the latest block number of the chain
@@ -43,7 +44,7 @@ func (api *APIImpl) Syncing(_ context.Context) (interface{}, error) {
 
 // ChainId returns the chain id from the config
 func (api *APIImpl) ChainId(ctx context.Context) (hexutil.Uint64, error) {
-	tx, err := api.dbReader.Begin(ctx, false)
+	tx, err := api.dbReader.Begin(ctx, ethdb.RO)
 	if err != nil {
 		return 0, err
 	}

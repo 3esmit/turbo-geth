@@ -7,6 +7,7 @@ import (
 	"github.com/ledgerwatch/turbo-geth/common"
 	"github.com/ledgerwatch/turbo-geth/common/hexutil"
 	"github.com/ledgerwatch/turbo-geth/core/rawdb"
+	"github.com/ledgerwatch/turbo-geth/ethdb"
 	"github.com/ledgerwatch/turbo-geth/rpc"
 	"github.com/ledgerwatch/turbo-geth/turbo/adapter/ethapi"
 )
@@ -14,7 +15,7 @@ import (
 // GetBlockByNumber see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getblockbynumber
 // see internal/ethapi.PublicBlockChainAPI.GetBlockByNumber
 func (api *APIImpl) GetBlockByNumber(ctx context.Context, number rpc.BlockNumber, fullTx bool) (map[string]interface{}, error) {
-	tx, err := api.dbReader.Begin(ctx, false)
+	tx, err := api.dbReader.Begin(ctx, ethdb.RO)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func (api *APIImpl) GetBlockByNumber(ctx context.Context, number rpc.BlockNumber
 // GetBlockByHash see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getblockbyhash
 // see internal/ethapi.PublicBlockChainAPI.GetBlockByHash
 func (api *APIImpl) GetBlockByHash(ctx context.Context, hash common.Hash, fullTx bool) (map[string]interface{}, error) {
-	tx, err := api.dbReader.Begin(ctx, false)
+	tx, err := api.dbReader.Begin(ctx, ethdb.RO)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +89,7 @@ func (api *APIImpl) GetBlockByHash(ctx context.Context, hash common.Hash, fullTx
 
 // GetBlockTransactionCountByNumber returns the number of transactions in the block
 func (api *APIImpl) GetBlockTransactionCountByNumber(ctx context.Context, blockNr rpc.BlockNumber) (*hexutil.Uint, error) {
-	tx, err := api.dbReader.Begin(ctx, false)
+	tx, err := api.dbReader.Begin(ctx, ethdb.RO)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +113,7 @@ func (api *APIImpl) GetBlockTransactionCountByNumber(ctx context.Context, blockN
 
 // GetBlockTransactionCountByHash returns the number of transactions in the block
 func (api *APIImpl) GetBlockTransactionCountByHash(ctx context.Context, blockHash common.Hash) (*hexutil.Uint, error) {
-	tx, err := api.dbReader.Begin(ctx, false)
+	tx, err := api.dbReader.Begin(ctx, ethdb.RO)
 	if err != nil {
 		return nil, err
 	}

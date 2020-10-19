@@ -7,11 +7,12 @@ import (
 	"github.com/ledgerwatch/turbo-geth/common"
 	"github.com/ledgerwatch/turbo-geth/core/rawdb"
 	"github.com/ledgerwatch/turbo-geth/core/types"
+	"github.com/ledgerwatch/turbo-geth/ethdb"
 )
 
 // GetLogsByHash returns all logs in a block
 func (api *TgImpl) GetLogsByHash(ctx context.Context, hash common.Hash) ([][]*types.Log, error) {
-	tx, err := api.dbReader.Begin(ctx, false)
+	tx, err := api.dbReader.Begin(ctx, ethdb.RO)
 	if err != nil {
 		return nil, err
 	}
