@@ -107,7 +107,7 @@ func syncBySmallSteps(ctx context.Context, chaindata string) error {
 	}
 
 	st.DisableStages(stages.Headers, stages.BlockHashes, stages.Bodies, stages.Senders)
-	st.SetCurrentStage(stages.Execution)
+	_ = st.SetCurrentStage(stages.Execution)
 
 	senderStageProgress := progress(stages.Senders).BlockNumber
 
